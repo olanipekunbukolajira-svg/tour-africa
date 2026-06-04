@@ -1,0 +1,114 @@
+.explore-page {
+  background: var(--cream);
+  min-height: 100vh;
+}
+
+.explore-page .page-header {
+  background: var(--primary-green);
+  color: var(--white);
+  padding: 80px 0 60px;
+  text-align: center;
+}
+
+.explore-page .page-header h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.explore-page .page-header p {
+  color: rgba(255,255,255,0.8);
+  font-size: 16px;
+}
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.experience-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.experience-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.experience-image {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+.experience-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.experience-card:hover .experience-image img {
+  transform: scale(1.05);
+}
+
+.experience-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+
+.experience-content {
+  padding: 32px;
+}
+
+.experience-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--light-green);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-green);
+  margin-bottom: 20px;
+}
+
+.experience-content h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.experience-content p {
+  color: var(--text-gray);
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.experience-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary-green);
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+.experience-link:hover {
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .experiences-grid {
+    grid-template-columns: 1fr;
+  }
+  .explore-page .page-header h1 {
+    font-size: 32px;
+  }
+}

@@ -1,0 +1,95 @@
+.confirm-page {
+  background: var(--cream);
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.confirm-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.confirm-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.confirm-icon {
+  margin-bottom: 24px;
+}
+
+.confirm-card h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.confirm-message {
+  color: var(--text-gray);
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.booking-details {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.booking-details h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-gray);
+}
+
+.detail-row strong {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.confirm-actions .btn-outline,
+.confirm-actions .btn-primary {
+  padding: 14px 28px;
+}
+
+@media (max-width: 768px) {
+  .confirm-card {
+    padding: 32px 24px;
+  }
+  .confirm-actions {
+    flex-direction: column;
+  }
+}
