@@ -1,4 +1,4 @@
-# African Tours
+# Tour Africa
 
 A modern React web application for exploring and booking African travel experiences.
 

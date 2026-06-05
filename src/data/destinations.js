@@ -107,12 +107,31 @@ export const destinations = [
 // ============================================
 
 export const categories = [
-  { name: 'Safari', image: safariCat, count: 24 },
-  { name: 'Road Trips', image: roadtripCat, count: 18 },
-  { name: 'Adventure', image: adventureCat, count: 15 },
-  { name: 'Art & Culture', image: artCat, count: 12 },
-  { name: 'Beach', image: beachCat, count: 20 },
-  { name: 'Wellness', image: wellnessCat, count: 8 }
+  { 
+    name: 'Safari', 
+    count: 45, 
+    image: 'https://tse1.mm.bing.net/th/id/OIP.qvDb-K3OvZMjJ44cMp-I-wHaE6?rs=1&pid=ImgDetMain&o=7&rm=3' 
+  },
+  { 
+    name: 'Road Trip', 
+    count: 18, 
+    image: 'https://th.bing.com/th/id/R.46cc9453bd442cbaaae76fec97034e78?rik=TNThMEwj87TN0w&pid=ImgRaw&r=0' 
+  },
+  { 
+    name: 'Adventure', 
+    count: 32, 
+    image: 'https://www.grandafricaexperiences.com/resources/safaris/adventure-safaris.jpg' 
+  },
+  { 
+    name: 'Beach', 
+    count: 24, 
+    image: 'https://www.gamintraveler.com/wp-content/uploads/2018/12/Pagudpud-Things-to-See-and-Do-9151-684x1024.jpg' 
+  },
+  { 
+    name: 'Wellness', 
+    count: 15, 
+    image: 'https://pictures-nigeria.jijistatic.net/146025283_MzAwLTIyOS0wYWZjZjVjZDc2.webp' 
+  },
 ]
 
 export const testimonials = [

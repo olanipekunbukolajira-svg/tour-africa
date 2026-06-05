@@ -13,7 +13,8 @@ function Navbar() {
     { path: '/explore', label: 'Experiences' },
     { path: '/travel-requirements', label: 'Operators' },
     { path: '/review', label: 'Trust & Safety' },
-  
+    { path: '/support', label: 'Support' },
+    { path: '/referral', label: 'Referral' },
   ]
 
   const isActive = (path) => location.pathname === path
@@ -21,13 +22,11 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-    
-              <img src="/src/assets/logo.png" alt="African Tours" className="footer-logo-img" /> 
         <Link to="/" className="navbar-logo">
-              <div className="Home" /> 
-              <div className="Tour Africa"></div>
+          <img src={logo} alt="Tour Africa" className="navbar-logo-img" />
+          <span className="logo-text">Tour Africa</span>
+        </Link>
                  
-                 </Link>
         <div className={`navbar-links ${isOpen ? 'active' : ''}`}>
           {navLinks.map((link) => (
             <Link

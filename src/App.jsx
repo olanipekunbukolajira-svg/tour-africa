@@ -14,6 +14,9 @@ import Offline from './pages/Offline'
 import DashboardPage from './pages/DashboardPage'
 import TravelRequirementsPage from './pages/TravelRequirementsPage'
 import DestinationDetailsPage from './pages/DestinationDetailsPage'
+import OperatorsPage from './pages/OperatorsPage'
+import SupportServicesPage from './pages/SupportServicesPage'
+import ReferralPage from './pages/ReferralPage'
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/travel-requirements" element={<TravelRequirementsPage />} />
           <Route path="/destination/:id" element={<DestinationDetailsPage />} />
+          <Route path="/operators" element={<OperatorsPage />} />
+          <Route path="/support" element={<SupportServicesPage />} />
+          <Route path="/referral" element={<ReferralPage />} />
         </Routes>
       </main>
       <Footer />

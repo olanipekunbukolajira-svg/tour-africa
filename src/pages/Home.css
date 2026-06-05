@@ -417,3 +417,62 @@
 .category-card:hover .category-image {
   border-color: #ffffff;
 }
+/* ===== CATEGORIES SECTION ===== */
+
+.categories-section {
+  padding: 60px 0;
+  background: #f8f9fa;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.section-header p {
+  color: #666;
+}
+
+/* Grid - 5 columns in ONE straight row */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);  /* Always 5 columns */
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.category-image-wrapper {
+  height: 80px;  /* Slightly smaller */
+}
+
+/* Only stack on very small screens */
+@media (max-width: 568px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns on mobile */
+  }
+}
+
+/* ===== RESPONSIVE - Mobile: scroll horizontally ===== */
+@media (max-width: 476px) {
+  .categories-grid {
+    display: flex;           /* Switch to flex for horizontal scroll */
+    flex-wrap: nowrap;       /* No wrapping - single row */
+    overflow-x: auto;        /* Enable horizontal scroll */
+    gap: 12px;
+    padding-bottom: 12px;    /* Space for scrollbar */
+  }
+  
+  .category-card {
+    flex: 0 0 160px;         /* Fixed width cards */
+    min-width: 160px;
+  }
+  
+  .category-image-wrapper {
+    height: 140px;
+  }
+}

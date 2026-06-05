@@ -3,7 +3,7 @@ import { ArrowRight, Users, Award, ChevronDown } from 'lucide-react'
 import DestinationCard from '../components/DestinationCard'
 import TestimonialCard from '../components/TestimonialCard'
 import { destinations, testimonials, categories, stats } from '../data/destinations'
-import mapImg from '../assets/map.png'
+import mapImg from "../assets/map.png";
 import './Home.css'
 
 function Home() {
@@ -71,23 +71,32 @@ function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="categories-section section-padding">
-        <div className="container">
-          <div className="section-header text-center">
-            <h2>Destination Categories</h2>
-            <p>Choose your perfect African adventure</p>
+<section className="categories-section section-padding">
+  <div className="container">
+    <div className="section-header text-center">
+      <h2>Destination Categories</h2>
+      <p>Choose your perfect African adventure</p>
+    </div>
+    <div className="categories-grid">
+      {categories.map((cat, index) => (
+        <Link to="/destinations" key={index} className="category-card">
+          <div className="category-image-wrapper">
+            <img 
+              src={cat.image} 
+              alt={cat.name} 
+              className="category-image"
+              loading="lazy"
+            />
+            <div className="category-overlay">
+              <h3>{cat.name}</h3>
+              <span className="category-count">{cat.count} tours</span>
+            </div>
           </div>
-          <div className="categories-grid">
-            {categories.map((cat, index) => (
-              <Link to="/destinations" key={index} className="category-card">
-                <span className="category-icon">{cat.icon}</span>
-                <h3>{cat.name}</h3>
-                <span className="category-count">{cat.count} tours</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
 
 {/* Why Choose Us */}
 <section className="why-us-section section-padding">

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, Youtube } from 'lucide-react'
+import logo from '../assets/logo.png'
 import './Footer.css'
 
 function Footer() {
@@ -8,13 +9,12 @@ function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <img src="/src/assets/logo.png" alt="African Tours" className="footer-logo-img" />
-            <div className="logo.png">
-              <span></span>
-            </div>
+          <Link to="/" className="footer-logo">
+                    <img src={logo} alt="Tour Africa" className="footer-logo-img" />
+                    <span className="logo-text">Tour Africa</span>
+                  </Link>
             <p className="footer-desc">
-              "One platform to discover, trust, and book African travel experiences."
-              
+              One platform to discover, trust, and book African travel experiences.
             </p>
             <div className="footer-socials">
               <a href="#"><Facebook size={18} /></a>
