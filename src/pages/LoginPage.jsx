@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Eye, EyeOff, MapPin, Star } from 'lucide-react'
-import logoImg from '../assests/logo.png'
+import logoImg from '../assets/logo.png'
 import './Auth.css'
 
 function LoginPage() {

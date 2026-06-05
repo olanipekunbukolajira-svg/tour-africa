@@ -1,10 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
 import { MapPin, Star, Clock, Users, Check, ChevronRight, Heart, Share2 } from 'lucide-react'
 import { destinations } from '../data/destinations'
-import familytrip from '../assests/familytrip.png'
-import grouptrip from '../assests/grouptrip.png'
-import adventuretrip from '../assests/adventuretrip.png'
-import roadtrip from '../assests/roadtrip.png'
+import familytrip from '../assets/familytrip.png'
+import grouptrip from '../assets/grouptrip.png'
+import adventuretrip from '../assets/adventuretrip.png'
+import roadtrip from '../assets/roadtrip.png'
 import './DestinationDetails.css'
 
 function DestinationDetailsPage() {

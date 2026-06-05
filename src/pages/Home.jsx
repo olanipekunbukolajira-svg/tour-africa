@@ -3,7 +3,7 @@ import { ArrowRight, Users, Award, ChevronDown } from 'lucide-react'
 import DestinationCard from '../components/DestinationCard'
 import TestimonialCard from '../components/TestimonialCard'
 import { destinations, testimonials, categories, stats } from '../data/destinations'
-import mapImg from '../assests/map.png'
+import mapImg from '../assets/map.png'
 import './Home.css'
 
 function Home() {

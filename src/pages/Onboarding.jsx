@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Compass, Camera, Mountain, Palmtree, Utensils, Music, Heart, ChevronRight } from 'lucide-react'
-import logoImg from '../assests/logo.png'
+import logoImg from '../assets/logo.png'
 import './Onboarding.css'
 
 function Onboarding() {

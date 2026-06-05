@@ -8,7 +8,7 @@ function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <img src="/src/assests/logo.png" alt="African Tours" className="footer-logo-img" />
+            <img src="/src/assets/logo.png" alt="African Tours" className="footer-logo-img" />
             <div className="logo.png">
               <span></span>
             </div>

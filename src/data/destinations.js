@@ -1,18 +1,18 @@
 // Destination images
-import serengetiImg from '../assests/image.png'
-import adventureImg from '../assests/adventuretrip.png'
-import familyImg from '../assests/familytrip.png'
-import groupImg from '../assests/grouptrip.png'
-import roadtripImg from '../assests/roadtrip.png'
-import artImg from '../assests/art.png'
+import serengetiImg from '../assets/image.png'
+import adventureImg from '../assets/adventuretrip.png'
+import familyImg from '../assets/familytrip.png'
+import groupImg from '../assets/grouptrip.png'
+import roadtripImg from '../assets/roadtrip.png'
+import artImg from '../assets/art.png'
 
 // Category images
-import safariCat from '../assests/image.png'
-import roadtripCat from '../assests/roadtrip.png'
-import adventureCat from '../assests/adventuretrip.png'
-import artCat from '../assests/art.png'
-import beachCat from '../assests/familytrip.png'
-import wellnessCat from '../assests/grouptrip.png'
+import safariCat from '../assets/image.png'
+import roadtripCat from '../assets/roadtrip.png'
+import adventureCat from '../assets/adventuretrip.png'
+import artCat from '../assets/art.png'
+import beachCat from '../assets/familytrip.png'
+import wellnessCat from '../assets/grouptrip.png'
 
 
 export const destinations = [

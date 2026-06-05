@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, MapPin } from 'lucide-react'
-import logo from '../assests/logo.png'
+import logo from '../assets/logo.png'
 import './Navbar.css'
 
 function Navbar() {
@@ -22,7 +22,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="container navbar-container">
     
-              <img src="/src/assests/logo.png" alt="African Tours" className="footer-logo-img" /> 
+              <img src="/src/assets/logo.png" alt="African Tours" className="footer-logo-img" /> 
         <Link to="/" className="navbar-logo">
               <div className="Home" /> 
               <div className="Tour Africa"></div>

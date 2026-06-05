@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Compass, Camera, Utensils, Mountain } from 'lucide-react'
-import familytrip from '../assests/familytrip.png'
-import grouptrip from '../assests/grouptrip.png'
-import adventuretrip from '../assests/adventuretrip.png'
-import roadtrip from '../assests/roadtrip.png'
+import familytrip from '../assets/familytrip.png'
+import grouptrip from '../assets/grouptrip.png'
+import adventuretrip from '../assets/adventuretrip.png'
+import roadtrip from '../assets/roadtrip.png'
 import './Explore.css'
 
 function Explore() {
