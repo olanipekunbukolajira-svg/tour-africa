@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import ChatBot from './components/ChatBot'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
@@ -62,6 +63,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <ChatBot />
         </div>
       </Router>
     </AuthProvider>
