@@ -34,7 +34,7 @@
 }
 
 .navbar-logo img {
-  height: 48px;
+  height: 68px;
   width: auto;
   object-fit: contain;
 }
@@ -55,7 +55,7 @@
 }
 
 .navbar-links a {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   color: #666666;
   padding: 8px 0;
@@ -95,7 +95,7 @@
 }
 
 .btn-login {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
   padding: 10px 20px;
@@ -110,7 +110,7 @@
 
 .btn-start {
   padding: 10px 24px;
-  font-size: 14px;
+  font-size: 13px;
   white-space: nowrap;
   text-decoration: none;
 }
@@ -160,4 +160,38 @@
   .navbar-logo img {
     height: 40px;
   }
+}
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  min-width: 200px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown-menu a:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-menu a.active {
+  color: #e85d04;
+  font-weight: 600;
 }

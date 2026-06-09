@@ -26,7 +26,7 @@
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 50px;
   align-items: center;
   padding-top: 80px;
   padding-bottom: 80px;
@@ -34,7 +34,7 @@
 
 .hero-text h1 {
   font-size: 56px;
-  color: var(--dark-green);
+  color: var(absolute rgb(89, 3, 3));
   margin-bottom: 24px;
   line-height: 1.1;
 }
@@ -78,7 +78,7 @@
 }
 
 .africa-svg {
-  width: 350px;
+  width: 320px;
   height: 400px;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
 }
@@ -470,9 +470,5 @@
   .category-card {
     flex: 0 0 160px;         /* Fixed width cards */
     min-width: 160px;
-  }
-  
-  .category-image-wrapper {
-    height: 140px;
   }
 }

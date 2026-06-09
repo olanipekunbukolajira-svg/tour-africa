@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Star, MapPin } from 'lucide-react'
 import './DestinationCard.css'
 
+
 function DestinationCard({ destination }) {
   return (
     <Link to={`/destination/${destination.id}`} className="destination-card">

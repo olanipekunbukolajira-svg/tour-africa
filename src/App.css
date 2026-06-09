@@ -77,3 +77,20 @@ button {
     padding: 0 16px;
   }
 }
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Make sure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix any wide containers */
+.container, .app, main {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
