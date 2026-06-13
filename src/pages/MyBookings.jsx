@@ -1,30 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { bookingsAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Calendar, MapPin, Users, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 const MyBookings = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Load bookings from localStorage (frontend-only)
   useEffect(() => {
-    if (!user) { navigate('/login'); return; }
-    const fetchBookings = async () => {
-      try {
-        const data = await bookingsAPI.getMyBookings();
-        setBookings(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBookings();
-  }, [user, navigate]);
+    const stored = JSON.parse(localStorage.getItem('tourBookings') || '[]');
+    setBookings(stored);
+    setLoading(false);
+  }, []);
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -53,30 +42,63 @@ const MyBookings = () => {
         <div className="text-center py-12 bg-white rounded-xl shadow-md">
           <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-medium text-gray-900 mb-2">No bookings yet</h3>
-          <button onClick={() => navigate('/tours')} className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700">Browse Tours</button>
+          <button 
+            onClick={() => navigate('/tours')} 
+            className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors"
+          >
+            Browse Tours
+          </button>
         </div>
       ) : (
         <div className="space-y-6">
           {bookings.map((booking) => (
-            <div key={booking._id} className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div key={booking._id || booking.id} className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="flex flex-col md:flex-row">
-                <div className="md:w-48 h-48 md:h-auto">
-                  <img src={booking.tour?.images?.[0]} alt={booking.tour?.title} className="w-full h-full object-cover" />
+                <div className="md:w-48 h-48 md:h-auto flex-shrink-0">
+                  <img 
+                    src={booking.tour?.images?.[0] || booking.tour?.image} 
+                    alt={booking.tour?.title} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
                 <div className="flex-1 p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">{booking.tour?.title}</h3>
-                      <div className="flex items-center text-gray-500 text-sm"><MapPin className="h-4 w-4 mr-1" />{booking.tour?.destination}</div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-1">
+                        {booking.tour?.title}
+                      </h3>
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {booking.tour?.destination || booking.tour?.location}
+                      </div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getStatusColor(booking.status)}`}>
-                      <span className="flex items-center gap-1">{getStatusIcon(booking.status)}{booking.status}</span>
+                      <span className="flex items-center gap-1">
+                        {getStatusIcon(booking.status)}
+                        {booking.status}
+                      </span>
                     </span>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div><p className="text-sm text-gray-500">Start Date</p><p className="font-medium">{new Date(booking.startDate).toLocaleDateString()}</p></div>
-                    <div><p className="text-sm text-gray-500">Travelers</p><p className="font-medium flex items-center"><Users className="h-4 w-4 mr-1" />{booking.numberOfPeople}</p></div>
-                    <div><p className="text-sm text-gray-500">Total Price</p><p className="font-medium text-orange-600">${booking.totalPrice}</p></div>
+                    <div>
+                      <p className="text-sm text-gray-500">Start Date</p>
+                      <p className="font-medium">
+                        {booking.startDate ? new Date(booking.startDate).toLocaleDateString() : 'N/A'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Travelers</p>
+                      <p className="font-medium flex items-center">
+                        <Users className="h-4 w-4 mr-1" />
+                        {booking.numberOfPeople || booking.travelers || 1}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Total Price</p>
+                      <p className="font-medium text-orange-600">
+                        ${booking.totalPrice || booking.price || 0}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
+// Navbar.jsx
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, MapPin, ChevronDown } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import logo from '../assets/logo.png'
 import './Navbar.css'
 
@@ -8,13 +9,51 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [operatorsDropdown, setOperatorsDropdown] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   const isActive = (path) => location.pathname === path
+
+  // Check if user is logged in
+  const isAuthenticated = !!localStorage.getItem('token')
+  const userRole = localStorage.getItem('userRole') || 'traveler'
+
+  // ✅ FIXED: Define isOperatorDashboard BEFORE using it
+  const isOperatorDashboard = location.pathname.startsWith('/operator/') && 
+    location.pathname !== '/operator/signin' && 
+    location.pathname !== '/operator/signup'
+
+  const isUserDashboard = location.pathname === '/dashboard' || 
+    location.pathname.startsWith('/user/')
+
+  // Hide navbar on dashboard pages
+  if (isUserDashboard || isOperatorDashboard) return null
+
+  const handleStartClick = () => {
+    if (isAuthenticated) {
+      if (userRole === 'operator') {
+        navigate('/operators')
+      } else {
+        navigate('/dashboard')
+      }
+    } else {
+      navigate('/start')
+    }
+    setIsOpen(false)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userRole')
+    localStorage.removeItem('userEmail')
+    localStorage.removeItem('userAvatar')
+    navigate('/')
+    window.location.reload()
+  }
 
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <Link to="/" className="navbar-logo">
+        <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
           <img src={logo} alt="Tour Africa" className="navbar-logo-img" />
           <span className="logo-text">Tour Africa</span>
         </Link>
@@ -30,7 +69,6 @@ function Navbar() {
             Experiences
           </Link>
           
-          {/* Operators with Dropdown */}
           <div 
             className="dropdown"
             onMouseEnter={() => setOperatorsDropdown(true)}
@@ -67,8 +105,31 @@ function Navbar() {
         </div>
 
         <div className="navbar-actions">
-          <Link to="/login" className="btn-login">Sign In</Link>
-          <Link to="/register" className="btn-primary btn-start">Start with us</Link>
+          {isAuthenticated ? (
+            <div className="user-menu" style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <img 
+                src={localStorage.getItem('userAvatar') || '/default-avatar.png'} 
+                alt="Profile" 
+                className="user-avatar"
+                style={{width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer'}}
+                onClick={() => navigate(userRole === 'operator' ? '/operators' : '/dashboard')}
+              />
+              <button 
+                onClick={handleLogout} 
+                className="btn-login"
+                style={{border: '1px solid #2d7a3e', background: 'transparent', color: '#2d7a3e'}}
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="btn-login" onClick={() => setIsOpen(false)}>Sign In</Link>
+              <button onClick={handleStartClick} className="btn-primary btn-start">
+                Start with us
+              </button>
+            </>
+          )}
         </div>
 
         <button className="navbar-toggle" onClick={() => setIsOpen(!isOpen)}>

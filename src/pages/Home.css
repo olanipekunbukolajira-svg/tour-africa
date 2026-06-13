@@ -33,17 +33,17 @@
 }
 
 .hero-text h1 {
-  font-size: 56px;
-  color: var(absolute rgb(89, 3, 3));
-  margin-bottom: 24px;
+  font-size: 1200px;
+  color: var(absolute rgb(44, 3, 3));
+  margin-bottom: 40px;
   line-height: 1.1;
 }
 
 .hero-text p {
-  font-size: 18px;
+  font-size: 20px;
   color: rgba(255,255,255,0.85);
   margin-bottom: 32px;
-  max-width: 480px;
+  max-width: 680px;
   line-height: 1.7;
 }
 

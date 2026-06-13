@@ -1,103 +1,188 @@
-import { useState } from 'react';
-import { useTours } from '../hooks/useTours';
-import { Link } from 'react-router-dom';
-import { Search, Filter, Star, Clock, Users, MapPin } from 'lucide-react';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Search, MapPin, Clock, Star, Users } from 'lucide-react'
+import '../Tours.css'
 
-// Simple TourCard inline since you may want to style it yourself
-const TourCard = ({ tour }) => (
-  <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-    <div className="relative h-48 overflow-hidden">
-      <img
-        src={tour.images[0] || 'https://via.placeholder.com/400x300'}
-        alt={tour.title}
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-      />
-      {tour.featured && (
-        <span className="absolute top-3 left-3 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-          Featured
-        </span>
-      )}
-    </div>
-    <div className="p-5">
-      <div className="flex items-center text-gray-500 text-sm mb-2">
-        <MapPin className="h-4 w-4 mr-1" />
-        <span>{tour.destination}, {tour.country}</span>
-      </div>
-      <h3 className="text-lg font-bold text-gray-900 mb-2">{tour.title}</h3>
-      <p className="text-gray-600 text-sm mb-4 line-clamp-2">{tour.description}</p>
-      <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-        <div className="flex items-center">
-          <Clock className="h-4 w-4 mr-1" />
-          <span>{tour.duration} days</span>
-        </div>
-        <div className="flex items-center">
-          <Users className="h-4 w-4 mr-1" />
-          <span>Max {tour.maxGroupSize}</span>
-        </div>
-        <div className="flex items-center text-yellow-500">
-          <Star className="h-4 w-4 mr-1 fill-current" />
-          <span>{tour.rating}</span>
-        </div>
-      </div>
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-2xl font-bold text-orange-600">${tour.price}</span>
-          <span className="text-gray-500 text-sm"> / person</span>
-        </div>
-        <Link
-          to={`/tours/${tour._id}`}
-          className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
-        >
-          View Details
-        </Link>
-      </div>
-    </div>
-  </div>
-);
+// Sample tour data - replace with your actual data/API
+const sampleTours = [
+  {
+    id: 1,
+    title: 'Masai Mara Safari Adventure',
+    location: 'Kenya',
+    description: 'Experience the great migration and witness the Big Five in their natural habitat.',
+    duration: '5 days',
+    groupSize: '2-8 people',
+    rating: 4.9,
+    reviews: 128,
+    price: 2450,
+    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800',
+    featured: true
+  },
+  {
+    id: 2,
+    title: 'Serengeti Wildlife Expedition',
+    location: 'Tanzania',
+    description: 'Explore the endless plains of Serengeti with expert guides and luxury camps.',
+    duration: '7 days',
+    groupSize: '2-6 people',
+    rating: 4.8,
+    reviews: 96,
+    price: 3200,
+    image: 'https://tse3.mm.bing.net/th/id/OIP.Rq-yuyVs1wOvLAg-FxAfIQHaEU?r=0&rs=1&pid=ImgDetMain&o=7&rm=3',
+    featured: false
+  },
+  {
+    id: 3,
+    title: 'Victoria Falls Adventure',
+    location: 'Zimbabwe/Zambia',
+    description: 'Witness the mighty Victoria Falls and enjoy thrilling adventure activities.',
+    duration: '4 days',
+    groupSize: '2-10 people',
+    rating: 4.7,
+    reviews: 84,
+    price: 1800,
+    image: 'https://images.unsplash.com/photo-1603201236596-eb1a63eb0ede?w=800',
+    featured: false
+  },
+  {
+    id: 4,
+    title: 'Cape Town & Garden Route',
+    location: 'South Africa',
+    description: 'Discover the beauty of Cape Town and the scenic Garden Route coastline.',
+    duration: '8 days',
+    groupSize: '2-12 people',
+    rating: 4.9,
+    reviews: 156,
+    price: 2800,
+    image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800',
+    featured: true
+  },
+  {
+    id: 5,
+    title: 'Gorilla Trekking in Rwanda',
+    location: 'Rwanda',
+    description: 'Get up close with endangered mountain gorillas in Volcanoes National Park.',
+    duration: '3 days',
+    groupSize: '2-6 people',
+    rating: 5.0,
+    reviews: 72,
+    price: 4500,
+    image: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800',
+    featured: false
+  },
+  {
+    id: 6,
+    title: 'Pyramids & Nile Cruise',
+    location: 'Egypt',
+    description: 'Explore ancient pyramids and cruise the Nile in ultimate luxury.',
+    duration: '10 days',
+    groupSize: '4-20 people',
+    rating: 4.6,
+    reviews: 203,
+    price: 3800,
+    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=800',
+    featured: false
+  }
+]
 
-const Tours = () => {
-  const [filters, setFilters] = useState({});
-  const [searchInput, setSearchInput] = useState('');
-  const { tours, loading, error } = useTours(filters);
+function Tours() {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredTours, setFilteredTours] = useState(sampleTours)
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    setFilters({ ...filters, destination: searchInput });
-  };
+    e.preventDefault()
+    const query = searchQuery.toLowerCase()
+    const filtered = sampleTours.filter(tour => 
+      tour.title.toLowerCase().includes(query) ||
+      tour.location.toLowerCase().includes(query) ||
+      tour.description.toLowerCase().includes(query)
+    )
+    setFilteredTours(filtered)
+  }
+
+  const handleClear = () => {
+    setSearchQuery('')
+    setFilteredTours(sampleTours)
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">All Tours</h1>
-
-      {/* Search & Filters */}
-      <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-        <form onSubmit={handleSearch} className="flex gap-4 mb-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search destinations..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
-          <button type="submit" className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700">
-            Search
-          </button>
-        </form>
-      </div>
-
-      {loading ? <LoadingSpinner /> : error ? (
-        <div className="text-center py-12 text-red-600">{error}</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tours.map((tour) => <TourCard key={tour._id} tour={tour} />)}
+    <div className="tours-page">
+      <div className="tours-container">
+        <h1>Explore African Tours</h1>
+        
+        {/* Search Section */}
+        <div className="search-section">
+          <form className="search-form" onSubmit={handleSearch}>
+            <div className="search-input-wrapper">
+              <Search className="search-icon" size={18} />
+              <input
+                type="text"
+                placeholder="Search tours by name, location, or activity..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn-search">Search</button>
+            {searchQuery && (
+              <button type="button" className="btn-clear" onClick={handleClear}>
+                Clear
+              </button>
+            )}
+          </form>
         </div>
-      )}
-    </div>
-  );
-};
 
-export default Tours;
+        {/* Tours Grid */}
+        {filteredTours.length > 0 ? (
+          <div className="tours-grid">
+            {filteredTours.map((tour) => (
+              <div key={tour.id} className="tour-card">
+                <div className="tour-image-wrapper">
+                  <img src={tour.image} alt={tour.title} className="tour-image" />
+                  {tour.featured && <span className="featured-badge">Featured</span>}
+                </div>
+                <div className="tour-content">
+                  <div className="tour-location">
+                    <MapPin size={14} />
+                    <span>{tour.location}</span>
+                  </div>
+                  <h3 className="tour-title">{tour.title}</h3>
+                  <p className="tour-description">{tour.description}</p>
+                  <div className="tour-meta">
+                    <span className="meta-item">
+                      <Clock size={14} />
+                      {tour.duration}
+                    </span>
+                    <span className="meta-item">
+                      <Users size={14} />
+                      {tour.groupSize}
+                    </span>
+                    <span className="meta-item rating">
+                      <Star size={14} className="star-filled" />
+                      {tour.rating} ({tour.reviews})
+                    </span>
+                  </div>
+                  <div className="tour-footer">
+                    <div className="tour-price">
+                      <span className="price-amount">${tour.price.toLocaleString()}</span>
+                      <span className="price-unit"> / person</span>
+                    </div>
+                    <Link to={`/tours/${tour.id}`} className="btn-view">
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="no-results">
+            <p>No tours found matching your search.</p>
+            <button onClick={handleClear} className="btn-primary">View All Tours</button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default Tours

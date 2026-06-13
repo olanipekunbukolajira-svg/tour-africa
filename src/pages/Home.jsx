@@ -23,7 +23,7 @@ function Home() {
             <p>"One platform to discover, trust, and book African travel experiences."</p>
             <div className="hero-buttons">
               <Link to="/destinations" className="btn-primary">
-                Explore Now <ArrowRight size={18} />
+                Explore Now <ArrowRight size={20} />
               </Link>
               <Link to="/explore" className="btn-outline">
                 Learn More

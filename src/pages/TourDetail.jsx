@@ -1,132 +1,245 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useTour } from '../hooks/useTours';
-import { useAuth } from '../context/AuthContext';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { Star, Clock, Users, MapPin, Calendar, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
-import { bookingsAPI } from '../services/api';
+import { useParams, useNavigate } from 'react-router-dom'
+import { MapPin, Clock, Users, Star, Check, Calendar, ArrowLeft } from 'lucide-react'
+import '../TourDetail.css'
 
-const TourDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const { tour, loading, error } = useTour(id);
-  const [bookingLoading, setBookingLoading] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
+// All 6 tours data (expanded from your Tours.jsx)
+const allTours = [
+  {
+    id: 1,
+    title: 'Masai Mara Safari Adventure',
+    location: 'Kenya',
+    description: 'Experience the great migration and witness the Big Five in their natural habitat. This carefully curated safari takes you through the heart of Masai Mara with expert guides who know every corner of this magnificent reserve.',
+    duration: '5 days',
+    groupSize: '2-8 people',
+    rating: 4.9,
+    reviews: 128,
+    price: 2450,
+    image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200',
+    featured: true,
+    includes: [
+      'All accommodation in luxury camps',
+      'All meals and drinks',
+      'Professional safari guide',
+      'Park entrance fees',
+      'Airport transfers',
+      'Game drives in 4x4 vehicle'
+    ],
+    dates: ['Jul 15-20, 2025', 'Aug 5-10, 2025', 'Sep 12-17, 2025']
+  },
+  {
+    id: 2,
+    title: 'Serengeti Wildlife Expedition',
+    location: 'Tanzania',
+    description: 'Explore the endless plains of Serengeti with expert guides and luxury camps. Witness the great migration and enjoy daily game drives in one of Africa\'s most iconic national parks.',
+    duration: '7 days',
+    groupSize: '2-6 people',
+    rating: 4.8,
+    reviews: 96,
+    price: 3200,
+    image: 'https://images.unsplash.com/photo-1534177616072-ef7dc120448d?w=1200',
+    featured: false,
+    includes: [
+      'Luxury tented camp accommodation',
+      'All meals and beverages',
+      'Expert naturalist guide',
+      'Conservation fees',
+      'Internal flights',
+      'Daily game drives'
+    ],
+    dates: ['Jun 20-27, 2025', 'Jul 10-17, 2025', 'Oct 5-12, 2025']
+  },
+  {
+    id: 3,
+    title: 'Victoria Falls Adventure',
+    location: 'Zimbabwe/Zambia',
+    description: 'Witness the mighty Victoria Falls and enjoy thrilling adventure activities including white water rafting, bungee jumping, and sunset cruises on the Zambezi River.',
+    duration: '4 days',
+    groupSize: '2-10 people',
+    rating: 4.7,
+    reviews: 84,
+    price: 1800,
+    image: 'https://images.unsplash.com/photo-1603201236596-eb1a63eb0ede?w=1200',
+    featured: false,
+    includes: [
+      'Boutique hotel accommodation',
+      'Breakfast daily',
+      'Guided Falls tour',
+      'Sunset cruise',
+      'Airport transfers',
+      'Adventure activity booking assistance'
+    ],
+    dates: ['May 10-14, 2025', 'Jun 15-19, 2025', 'Aug 20-24, 2025']
+  },
+  {
+    id: 4,
+    title: 'Cape Town & Garden Route',
+    location: 'South Africa',
+    description: 'Discover the beauty of Cape Town and the scenic Garden Route coastline. From Table Mountain to wine country, experience the best of South Africa.',
+    duration: '8 days',
+    groupSize: '2-12 people',
+    rating: 4.9,
+    reviews: 156,
+    price: 2800,
+    image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=1200',
+    featured: true,
+    includes: [
+      '4-star hotel accommodation',
+      'All breakfasts and select dinners',
+      'Private vehicle and driver',
+      'Wine tasting tour',
+      'Table Mountain cable car',
+      'Airport transfers'
+    ],
+    dates: ['Apr 5-13, 2025', 'Sep 10-18, 2025', 'Nov 15-23, 2025']
+  },
+  {
+    id: 5,
+    title: 'Gorilla Trekking in Rwanda',
+    location: 'Rwanda',
+    description: 'Get up close with endangered mountain gorillas in Volcanoes National Park. A once-in-a-lifetime wildlife experience with luxury lodge accommodation.',
+    duration: '3 days',
+    groupSize: '2-6 people',
+    rating: 5.0,
+    reviews: 72,
+    price: 4500,
+    image: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1200',
+    featured: false,
+    includes: [
+      'Luxury lodge accommodation',
+      'All meals',
+      'Gorilla trekking permit',
+      'Expert guide',
+      'Park fees',
+      'Kigali transfers'
+    ],
+    dates: ['Mar 15-18, 2025', 'Jul 20-23, 2025', 'Dec 10-13, 2025']
+  },
+  {
+    id: 6,
+    title: 'Pyramids & Nile Cruise',
+    location: 'Egypt',
+    description: 'Explore ancient pyramids and cruise the Nile in ultimate luxury. Visit the Great Pyramids, Sphinx, and sail from Luxor to Aswan in style.',
+    duration: '10 days',
+    groupSize: '4-20 people',
+    rating: 4.6,
+    reviews: 203,
+    price: 3800,
+    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?w=1200',
+    featured: false,
+    includes: [
+      '5-star hotel and cruise cabin',
+      'All meals on cruise',
+      'Expert Egyptologist guide',
+      'All entrance fees',
+      'Nile cruise (Luxor-Aswan)',
+      'Internal flights'
+    ],
+    dates: ['Oct 1-11, 2025', 'Nov 5-15, 2025', 'Jan 10-20, 2026']
+  }
+]
 
-  const handleBookingSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      navigate('/login', { state: { from: `/tours/${id}` } });
-      return;
-    }
+function TourDetail() {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  
+  const tour = allTours.find(t => t.id === parseInt(id))
 
-    const formData = new FormData(e.target);
-    try {
-      setBookingLoading(true);
-      await bookingsAPI.create({
-        tourId: id,
-        startDate: formData.get('startDate'),
-        numberOfPeople: parseInt(formData.get('numberOfPeople')),
-        specialRequests: formData.get('specialRequests'),
-        contactInfo: { phone: formData.get('phone') },
-      });
-      setBookingSuccess(true);
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setBookingLoading(false);
-    }
-  };
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <div className="text-center py-12 text-red-600">{error}</div>;
-  if (!tour) return <div className="text-center py-12">Tour not found</div>;
+  // Handle invalid tour ID
+  if (!tour) {
+    return (
+      <div className="not-found">
+        <h2>Tour not found</h2>
+        <button onClick={() => navigate('/tours')} className="btn-view">
+          Back to Tours
+        </button>
+      </div>
+    )
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      <div className="relative h-96 rounded-2xl overflow-hidden mb-8">
-        <img src={tour.images[0]} alt={tour.title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 p-8 text-white">
-          <div className="flex items-center space-x-2 mb-2">
-            <MapPin className="h-5 w-5" />
-            <span>{tour.destination}, {tour.country}</span>
+    <div className="tour-detail-page">
+      {/* Hero */}
+      <div className="tour-hero">
+        <img src={tour.image} alt={tour.title} />
+        <div className="tour-hero-overlay" />
+        <div className="tour-hero-content">
+          <button 
+            className="btn-back" 
+            onClick={() => navigate('/tours')}
+          >
+            <ArrowLeft size={18} /> Back to Tours
+          </button>
+          <div className="tour-hero-location">
+            <MapPin size={18} />
+            <span>{tour.location}</span>
           </div>
-          <h1 className="text-4xl font-bold mb-2">{tour.title}</h1>
-          <div className="flex items-center space-x-4">
-            <span className="flex items-center"><Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />{tour.rating}</span>
-            <span className="flex items-center"><Clock className="h-5 w-5 mr-1" />{tour.duration} days</span>
-            <span className="flex items-center"><Users className="h-5 w-5 mr-1" />Max {tour.maxGroupSize}</span>
+          <h1>{tour.title}</h1>
+          <div className="tour-hero-meta">
+            <span>
+              <Clock size={16} /> {tour.duration}
+            </span>
+            <span>
+              <Users size={16} /> {tour.groupSize}
+            </span>
+            <span>
+              <Star size={16} className="star-icon" /> {tour.rating} ({tour.reviews} reviews)
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-            <h2 className="text-2xl font-bold mb-4">About This Tour</h2>
-            <p className="text-gray-600 leading-relaxed mb-6">{tour.description}</p>
-            <h3 className="text-xl font-bold mb-3">What's Included</h3>
-            <ul className="space-y-2">
-              {['Professional local guide', 'All entrance fees', 'Transportation', 'Meals as per itinerary', 'Accommodation'].map((item) => (
-                <li key={item} className="flex items-center text-gray-600">
-                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />{item}
+      {/* Detail Container */}
+      <div className="tour-detail-container">
+        <div className="detail-main">
+          <div className="detail-section">
+            <h2>About This Tour</h2>
+            <p>{tour.description}</p>
+          </div>
+
+          <div className="detail-section">
+            <h3>What's Included</h3>
+            <ul className="includes-list">
+              {tour.includes.map((item, index) => (
+                <li key={index}>
+                  <Check size={18} className="check-icon" />
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
-        </div>
 
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
-            <div className="text-center mb-6">
-              <span className="text-4xl font-bold text-orange-600">${tour.price}</span>
-              <span className="text-gray-500"> / person</span>
+          <div className="detail-section">
+            <h3>Available Dates</h3>
+            <div className="dates-list">
+              {tour.dates.map((date, index) => (
+                <div key={index} className="date-item">
+                  <Calendar size={16} />
+                  {date}
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          {!bookingSuccess ? (
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-bold mb-4">Book This Tour</h3>
-              <form onSubmit={handleBookingSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                  <select name="startDate" required className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option value="">Select a date</option>
-                    {tour.startDates?.map((date, index) => (
-                      <option key={index} value={date}>{new Date(date).toLocaleDateString()}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Number of People</label>
-                  <input type="number" name="numberOfPeople" min="1" max={tour.maxGroupSize} defaultValue="1" required className="w-full border border-gray-300 rounded-lg px-3 py-2" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                  <input type="tel" name="phone" required placeholder="+1234567890" className="w-full border border-gray-300 rounded-lg px-3 py-2" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
-                  <textarea name="specialRequests" rows="3" className="w-full border border-gray-300 rounded-lg px-3 py-2" />
-                </div>
-                <button type="submit" disabled={bookingLoading} className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50">
-                  {bookingLoading ? 'Processing...' : 'Confirm Booking'}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
-              <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-green-800 mb-2">Booking Confirmed!</h3>
-              <button onClick={() => navigate('/my-bookings')} className="text-green-700 font-medium hover:underline">View My Bookings</button>
-            </div>
-          )}
+        <div className="tour-sidebar">
+          <div className="price-card">
+            <span className="price-amount">${tour.price.toLocaleString()}</span>
+            <span className="price-unit"> per person</span>
+          </div>
+          <div className="booking-card">
+            <h3>Book This Tour</h3>
+            <button 
+              className="btn-book"
+              onClick={() => navigate('/payment')}
+            >
+              Book Now
+            </button>
+            <p className="booking-note">Free cancellation up to 30 days before</p>
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TourDetail;
+export default TourDetail

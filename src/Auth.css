@@ -50,7 +50,7 @@ button {
 }
 
 img {
-  max-width: 100%;
+  max-width: 40%;
   height: auto;
 }
 
@@ -157,8 +157,8 @@ img {
   position: absolute;
   top: -50%;
   right: -50%;
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
 }
 
@@ -195,7 +195,7 @@ img {
 .auth-logo {
   height: 48px;
   width: auto;
-  margin-bottom: 32px;
+  margin-bottom: 42px;
   filter: brightness(0) invert(1);
 }
 
@@ -438,7 +438,7 @@ img {
   background: var(--border-light);
 }
 
-/* Form Elements */
+/* ===== FORM ELEMENTS — FIXED ===== */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -457,6 +457,7 @@ img {
   color: var(--text-primary);
 }
 
+/* Input wrapper with icon — ALWAYS has left padding for icon */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -468,13 +469,14 @@ img {
   left: 14px;
   color: var(--text-muted);
   pointer-events: none;
+  z-index: 2;
 }
 
+/* ALL inputs inside .input-wrapper get left padding for the icon */
 .input-wrapper input,
-.form-group input,
-.form-group select {
+.input-wrapper select {
   width: 100%;
-  padding: 12px 14px 12px 44px;
+  padding: 12px 14px 12px 44px; /* 44px left = 14px icon + 14px gap + 16px text start */
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
   font-size: 15px;
@@ -482,21 +484,42 @@ img {
   color: var(--text-primary);
   transition: all 0.2s;
   background: var(--bg-white);
+  height: 48px; /* Consistent height */
 }
 
-.form-group input:not(.password-input input),
-.form-group select {
-  padding-left: 14px;
+/* Inputs WITHOUT icon wrapper (plain inputs) */
+.form-group > input:not(.input-wrapper input),
+.form-group > select:not(.input-wrapper select) {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--text-primary);
+  transition: all 0.2s;
+  background: var(--bg-white);
+  height: 48px;
 }
 
+/* Focus states */
 .input-wrapper input:focus,
-.form-group input:focus,
-.form-group select:focus {
+.input-wrapper select:focus,
+.form-group > input:focus,
+.form-group > select:focus {
   outline: none;
   border-color: var(--primary-green);
   box-shadow: 0 0 0 3px rgba(45, 122, 62, 0.08);
 }
 
+/* Placeholder color */
+.input-wrapper input::placeholder,
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: #bbb;
+}
+
+/* Password input with toggle button */
 .password-input {
   position: relative;
   display: flex;
@@ -504,7 +527,7 @@ img {
 }
 
 .password-input input {
-  padding-right: 44px;
+  padding-right: 12px 14px 12px 44px; /* Space for toggle button */
 }
 
 .toggle-password {
@@ -517,6 +540,7 @@ img {
   padding: 4px;
   display: flex;
   align-items: center;
+  z-index: 2;
   transition: color 0.2s;
 }
 
@@ -530,20 +554,23 @@ img {
   margin-top: 4px;
 }
 
+/* Form row (two columns) */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
-/* Options */
+/* Options row */
 .form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
+  margin-top: 4px;
 }
 
+/* Checkbox labels */
 .checkbox-label,
 .remember-me,
 .terms-checkbox {
@@ -562,11 +589,17 @@ img {
   height: 18px;
   accent-color: var(--primary-green);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .terms-checkbox {
   font-size: 13px;
   line-height: 1.5;
+  align-items: flex-start;
+}
+
+.terms-checkbox input {
+  margin-top: 2px;
 }
 
 .checkbox-label a,
@@ -588,6 +621,7 @@ img {
   text-decoration: none;
   font-weight: 500;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .forgot-link:hover,
@@ -595,7 +629,7 @@ img {
   text-decoration: underline;
 }
 
-/* Submit Buttons */
+/* ===== SUBMIT BUTTONS ===== */
 .btn-submit {
   width: 100%;
   padding: 14px;
@@ -607,6 +641,10 @@ img {
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 8px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-submit {
@@ -636,7 +674,21 @@ img {
   font-weight: 600;
 }
 
-/* Footer */
+/* ===== ERROR MESSAGE ===== */
+.auth-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== FOOTER ===== */
 .auth-footer {
   margin-top: 32px;
   text-align: center;
